@@ -1,9 +1,6 @@
-import gql from 'graphql-tag'
-import React, { useState } from 'react'
-import { useMutation, useQuery } from '@apollo/client'
-import Info from './Info'
-import Updat from './Updat'
-import AddGo from './Cre'
+import gql from 'graphql-tag';
+import React, { useState } from 'react';
+import { useMutation, useQuery } from '@apollo/client';
 
 const Get_USERS = gql`
   query {
@@ -14,24 +11,17 @@ const Get_USERS = gql`
       email
     }
   }
-`
+`;
 const deleteMutation = gql`
   mutation($userId: String!) {
     deleteUser(userId: $userId)
   }
-`
+`;
 
 const Home: React.FC = () => {
-  const { loading, data } = useQuery(Get_USERS)
+  const { loading, data } = useQuery(Get_USERS);
 
-  const [deleteUser] = useMutation(deleteMutation, {
-    variables: {userId},
-    refetchQueries: [{ query: Get_USERS }],
-  })
-  const handleDeleteClick=(e)=> {
-   
-  }
-
+  const handleDeleteClick = e => {};
 
   return (
     <>
@@ -52,21 +42,17 @@ const Home: React.FC = () => {
                   <td>{user.name}</td>
                   <td>{user.password}</td>
                   <td>{user.email}</td>
-                  <td>
-                    <Info key={user.userId} userId={user.userId} />{' '}
+
+                  <td data-userId={user.userId} onClick={handleDeleteClick}>
+                    delete
                   </td>
-                  <td>
-                    <Updat key={user.userId} userId={user.userId} />{' '}
-                  </td>
-                  <td data-userId={user.userId} onClick={handleDeleteClick}>delete</td>
                 </tr>
-              )
+              );
             })}
         </tbody>
       </table>
-      <AddGo />
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
